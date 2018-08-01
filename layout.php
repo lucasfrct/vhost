@@ -4,6 +4,14 @@ function addLink ( string $name, string $link ) {
 	echo '<a href="'.$link.'">'.$name.'</a>'; 
 };
 
+function report ( ) {
+	echo "<ul>";
+	array_map ( function ( $item ) {
+		echo "<li>MSG::".$item."</li>";
+	}, $GLOBALS[ "report" ]  );
+	echo "</ul";
+};
+
 echo '
 <head>
 	<meta charset="utf-8">
@@ -52,6 +60,20 @@ echo '
 		-ms-transform: scale(1.02);
 		-o-transform: scale(1.02);
 		transform: scale(1.02);
+	}
+
+	body ul {
+		display: block;
+		padding: 14px;
+		max-width: 600px;
+		width:100%;
+		background-color: #FFF;
+	}
+
+	body ul > li {
+		padding: 7px 7px 7px 14px;
+		border: solid 1px #DDD;
+		color: #424242;
 	}
 </style>';
 echo '<h1>Localhost</h1>';
