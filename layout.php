@@ -13,11 +13,12 @@ function report ( ) {
 };
 
 echo '
+<html lang="pt-br">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
 	<title>Localhost</title>
-</heade>
+</head>
 <style>
 	body {
 		padding: 0;
