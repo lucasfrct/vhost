@@ -24,7 +24,7 @@ echo '
 		padding: 0;
 		margin: 0;
 		background-color: #E8F5E9;
-		color: #FFF;
+		color: #000;
 		font-family: Verdana, ssans-serif;
 	}
 

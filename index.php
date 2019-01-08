@@ -2,29 +2,31 @@
 include_once ( "addVHost.php" );
 include_once ( "layout.php" );
 
-#newHost ( "domain", "c:\Server\htdocs\path" );
-newHost ( "localhost", "c:\Server\htdocs" );
-newHost ( "biblexml", "c:\Server\htdocs\bible-xml" );
-newHost ( "callcommunity", "c:\Server\htdocs\callcommunity" );
-newHost ( "components", "c:\Server\htdocs\components" );
-newHost ( "corebank", "c:\Server\htdocs\core-banking-client" );
-newHost ( "crud", "c:\Server\htdocs\crud" );
-newHost ( "lotodroid", "c:\Server\htdocs\lotodroid" );
-newHost ( "lotoweb", "c:\Server\htdocs\lotoweb" );
-newHost ( "musicalsystematizer", "c:\Server\htdocs\musical-systematizer" );
-newHost ( "soundapp", "c:\Server\htdocs\soundapp" );
-newHost ( "ligthcontroler", "c:\Server\htdocs\web-light-controller" );
+#newHost ( "\path", "domain", "port" );
+
+#newVHost ( "\bible-xml", "biblexml", "80" );
+#newVHost ( "\callcommunity", "callcommunity", "80" );
+#newVHost ( "\components", "components", "80" );
+#newVHost ( "\core-banking", "corebanking", "80" );
+#newVHost ( "\crud", "crud", "80" );
+#newVHost ( "\lotodroid", "lotodroid", "80" );
+#newHost ( "\lotoweb", "lotoweb", "80" );
+#newHost ( "\musical-systematizer", "musicalsystematizer", "80" );
+#newHost ( "\soundapp", "soundapp", "80" );
+#newHost ( "\lightcontroller", "lightcontroller" );
+newVHost ( "\appliber", "appliber", "81" );
 
 #addLink ( "Name", "url" );
-addLink ( "Bible XML", "http://biblexml/" );
-addLink ( "Call Community", "http://callcommunity/" );
-addLink ( "Components", "http://components/" );
-addLink ( "Core Bank Client", "http://corebank/" );
-addLink ( "Loto Droid", "http://lotodroid/" );
-addLink ( "Loto Web", "http://lotoweb/" );
-addLink ( "CRUD", "http://crud/" );
-addLink ( "Musical Systematizer", "http://musicalsystematizer/" );
-addLink ( "Sound App", "http://soundapp/" );
-addLink ( "Web Light Controller", "http://ligthcontroler/" );
+#addLink ( "Bible XML", "http://biblexml/" );
+#addLink ( "Call Community", "http://callcommunity/" );
+#addLink ( "Components", "http://components/" );
+#addLink ( "Core Bank Client", "http://corebanking/" );
+#addLink ( "CRUD", "http://crud/" );
+#addLink ( "Loto Droid", "http://lotodroid/" );
+#addLink ( "Loto Web", "http://lotoweb/" );
+#addLink ( "Musical Systematizer", "http://musicalsystematizer/" );
+#addLink ( "Sound App", "http://soundapp/" );
+#addLink ( "Web Light Controller", "http://lightcontroller/" );
+addLink ( "Liber", "http://appliber:81/" );
 
 #report ( );

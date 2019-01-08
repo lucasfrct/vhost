@@ -1,104 +1,105 @@
 <?php
 
-#host = c:\Windows\System32\drivers\\etc\hosts
-#vhost = c:\Server\apache\conf\\extra\httpd-vhosts.conf
-#vhostconf = c:Server\htdocs\\vhost\vhost.conf
-
 $GLOBALS [ "report" ] = [ "Message Reprots" ];
-$GLOBALS [ "hostexec" ] = "c:\Server\htdocs\\vhost\\addHost.bat";
-$GLOBALS [ "host" ] = "c:\Windows\System32\drivers\\etc\hosts";
-$GLOBALS [ "vhost" ] = "c:\Server\apache\conf\\extra\httpd-vhosts.conf";
 
-function addMsg ( string $message = "" ): array {
-    array_push ( $GLOBALS[ "report" ] , $message );
-    return $GLOBALS[ "report" ];
-};
-#addMsg ( "teste" );
+function permission ( string $src = "") { chmod ( $src, 0777 ); }
 
-function indexOfHostExec ( string $host = "" ): bool {
-    return ( strlen ( strpos ( fileRead ( $GLOBALS [ "hostexec" ] ), templateHostExec ( $host ) ) ) ) ? TRUE : FALSE;
+function addReport ( string $msg = "" ) { array_push ( $GLOBALS[ "report" ] , $msg ); };
+
+function digest ( string $url = "" ) {
+    $element = array ( "\xa", "\e" );
+    $digest = array ( "\\xa", "\\e" );
+    return str_replace ( $element, $digest, $url );
 };
 
-function indexOfHost ( string $host = "" ): bool {
-    return ( strlen ( strpos ( fileRead ( $GLOBALS[ "host" ] ), templateHost ( $host ) ) ) ) ? TRUE : FALSE;
+$GLOBALS [ "path" ] = digest ( "c:\xampp" );
+
+#### alterando o arquivo hosts #######################################################
+$GLOBALS [ "windowsHosts" ] = digest ( "c:\Windows\System32\drivers\etc\hosts" );
+
+function indexOfAddWindowsHosts ( string $host = "" ): bool {
+    return ( strstr ( fileRead ( $GLOBALS [ "windowsHosts" ] ),  $host ) ) ? TRUE : FALSE;
 };
 
-
-function indexOfVHost ( string $vhost = "", string $path = "" ): bool {
-    return ( strlen ( strpos ( fileRead ( $GLOBALS[ "vhost" ] ) , templateVHost ( $vhost, $path ) ) ) ) ? TRUE : FALSE ;
+function templateWindowsHosts ( string $host = "" ): string {
+    return "\n    127.0.0.1       ".$host." \n    ::1             ".$host;
 };
 
-function templateHostExec ( string $host = "" ): string {
-    return "echo     ".templateHost ( $host )." >> c:\Windows\System32\drivers\\etc\hosts \ntype c:\Windows\System32\drivers\\etc\hosts \npause";
+function addWindowsHosts ( string $host = "" ) {
+    if ( !indexOfAddWindowsHosts ( $host ) ) {
+        fileWrite ( $GLOBALS [ "windowsHosts" ], templateWindowsHosts ( $host ) );
+        addReport ( "Write Winbdows file hosts!" );
+    };
 };
 
-function templateHost ( string $host = "" ): string {
-    return "127.0.0.1       ".$host;
-};
+#### alterando o arquivo apache conf ##############################################
+$GLOBALS [ "apacheConf" ] = $GLOBALS [ "path" ].digest ( "\apache\conf\httpd.conf" );
 
-function templateVHost ( string $vhost = "", string $path = "" ): string {
+$GLOBALS [ "httdpConf" ] = fileRead ( $GLOBALS [ "apacheConf" ] );
 
+function indexOfApacheConfListenPort ( string $port = "80" ) {
+    return ( strstr ( $GLOBALS [ "httdpConf" ],  "Listen ".$port ) ) ? TRUE : FALSE;
+}
+
+function addApacheConfListenPort ( string $port = "80" ) {
+    if ( !indexOfApacheConfListenPort ( $port ) ) {
+        $glue = "\nListen 80";
+        $content = explode ( $glue, $GLOBALS [ "httdpConf" ] );
+        $content [ 0 ] = $content [ 0 ].$glue;
+        $content [ 1 ] = "\nListen 81".$content [ 1 ]; 
+        fileWrite ( $GLOBALS [ "apacheConf" ], implode ( "", $content ), 0 );
+        addReport ( "Write Apache file httpd.conf!" );
+    };
+}
+
+#### alterandoo arquivo do apache virtual hosts ##################################
+$GLOBALS [ "apacheConfVhosts" ] = $GLOBALS [ "path" ].digest ( "\apache\conf\extra\httpd-vhosts.conf" ); 
+
+function indexOfApacheConfVhosts ( string $host = "localhost" ) {
+    return ( strstr ( fileRead ( $GLOBALS [ "apacheConfVhosts" ] ),  $host ) ) ? TRUE : FALSE;
+}
+
+function templateVHost ( string $path = "", string $vhost = "localhost", string $port = "80" ): string {
+    $pathPattern = $GLOBALS [ "path" ]."\htdocs".$path;
     return '
 
-    <VirtualHost *:80>
-        ServerName '.$vhost.'
-        ServerAlias '.$vhost.'
-        DocumentRoot "'.$path.'"
-        ErrorLog "logs/'.$vhost.'-error.log"
-        CustomLog "logs/'.$vhost.'-access.log" common
-        <Directory "'.$path.'">
-            DirectoryIndex index.php index.html index.htm
-            AllowOverride All
-            Order allow,deny
-            Allow from all
-        </Directory>
-    </VirtualHost>';
-
+<VirtualHost *:'.$port.'>
+    ServerAdmin admin@'.$vhost.'
+    ServerName '.$vhost.'
+    ServerAlias '.$vhost.'
+    DocumentRoot "'.$pathPattern.'"
+    <Directory "'.$pathPattern.'">
+        DirectoryIndex index.php index.html index.htm
+        Allow from all
+        AllowOverride All
+    </Directory>
+</VirtualHost>';
 };
 
-function addHostExec ( string $host = "" ): bool {
-    fileWrite ( $GLOBALS [ "hostexec" ], templateHostExec ( $host ) );
-    return indexOfHostExec ( $host );
-};
-
-function addHost ( string $host = "" ): bool {
-    if ( addHostExec ( $host ) && file_exists ( $GLOBALS [ "host" ] ) && !indexOfHost ( $host ) ) {
-        exec ( $GLOBALS [ "hostexec" ] );
+function addApacheConfVhosts ( string $path = "", string $vhost = "localhost", string $port = "80" ) {
+    $tpl = templateVHost ( $path, $vhost, $port );
+    if ( !indexOfApacheConfVhosts ( $tpl ) ) {
+        fileWrite ( $GLOBALS [ "apacheConfVhosts" ], $tpl );
+        addReport ( "Write file apache conf vhosts!" );
     };
-    fileWrite ( $GLOBALS [ "hostexec" ], "#" );
+}
 
-    return  indexOfHost ( $host );
-};
-
-function addVHost ( string $vhost = "", string $path = "" ): bool {
-    if ( file_exists ( $GLOBALS [ "vhost" ] ) &&  !indexOfVHost ( $vhost, $path ) ) {
-        fileWrite ( $GLOBALS [ "vhost" ], templateVHost ( $vhost, $path ), "a+" );
-    };
-    return indexOfVHost ( $vhost, $path );
-};
-
-function newHost ( string $domain = "" , string $path = "" ) {
-    if ( addHost ( $domain ) ) {
-        if ( addVHost ( $domain, $path ) ) { 
-            addMsg ( "<b>Vitual Host:</b> ".$domain." | ".$path );
-        } else { 
-            addMsg ( "<b>Erro:</b> ".$domain." | ".$path );
-        };
-    };
+#### Add New Host ######################################################################
+function newVHost ( string $path = "", string $vhost = "localhost", $port = "80" ) {
+    permission ( $GLOBALS [ "windowsHosts" ] );
+    permission ( $GLOBALS [ "apacheConf" ] );
+    permission ( $GLOBALS [ "apacheConfVhosts" ] );
+    addWindowsHosts ( $vhost );
+    addApacheConfListenPort ( $port );
+    addApacheConfVhosts ( $path, $vhost, $port );
 };
 
 function fileRead ( string $src = "" ): string {
-    $file = fopen ( $src, 'r' );
-    $content = fread ( $file, ( 10 * 1024 ) );
-    fclose ( $file );
-    return $content;
+    return file_get_contents ( $src ); 
 };
 
-function fileWrite ( string $src = "", string $content = "", string $param = "w" ): bool {
-    $file = fopen ( $src, $param );
-    fwrite ( $file, $content );
-    fclose ( $file );
-    return ( strlen ( strpos ( fileRead ( $src ), $content ) ) ) ? TRUE : FALSE;
+function fileWrite ( string $src = "", string $content = "", $flag = FILE_APPEND ): bool {
+    return file_put_contents ( $src, $content, $flag );
 };
 
-#newHost ( "domain", "c:\Server\htdocs\path" );
+#newVHost ( "\appliber", "appliber", "81" );
