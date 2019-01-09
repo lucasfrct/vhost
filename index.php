@@ -5,7 +5,7 @@ include_once ( "layout.php" );
 #newHost ( "\path", "domain", "port" );
 
 #newVHost ( "\bible-xml", "biblexml", "80" );
-#newVHost ( "\callcommunity", "callcommunity", "80" );
+newVHost ( "\callcommunity", "callcommunity", "80" );
 #newVHost ( "\components", "components", "80" );
 #newVHost ( "\core-banking", "corebanking", "80" );
 #newVHost ( "\crud", "crud", "80" );
@@ -18,7 +18,7 @@ newVHost ( "\appliber", "appliber", "81" );
 
 #addLink ( "Name", "url" );
 #addLink ( "Bible XML", "http://biblexml/" );
-#addLink ( "Call Community", "http://callcommunity/" );
+addLink ( "Call Community", "http://callcommunity/" );
 #addLink ( "Components", "http://components/" );
 #addLink ( "Core Bank Client", "http://corebanking/" );
 #addLink ( "CRUD", "http://crud/" );
