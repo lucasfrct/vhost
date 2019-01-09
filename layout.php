@@ -4,36 +4,37 @@ function addLink ( string $name, string $link ) {
 	echo '<a href="'.$link.'">'.$name.'</a>'; 
 };
 
-function report ( ) {
-	echo "<ul>";
-	array_map ( function ( $item ) {
-		echo "<li>MSG::".$item."</li>";
-	}, $GLOBALS[ "report" ]  );
-	echo "</ul";
-};
-
 echo '
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+	<link rel="icon" href="vhost/server.png" sizes="32x32">
 	<title>Localhost</title>
-</head>
+
 <style>
-	body {
+	html, body {
 		padding: 0;
 		margin: 0;
 		background-color: #E8F5E9;
 		color: #000;
 		font-family: Verdana, ssans-serif;
+		boxing-size: border-box;
+	}
+
+	body > * {
+		margin: 0;
+		padding: 8px 16px;
+		boxing-size: border-box;
 	}
 
 	body h1 {
-		display: block;
 		background-color: #009688;
-		color: #FFF;
-		padding: 20px;
 		border-bottom: solid 3px #004D40;
+		color: #FFF;
+		margin-bottom: 16px;
+		padding: 16px 24px;
 	}
 
 	body a {
@@ -41,40 +42,28 @@ echo '
 		border: solid 1px #FFF;
 		color: #FFF;
 		display: block;
-		margin: 2px 8px;
 		max-width: 320px;
-		padding: 8px 16px;
 		position: relative;
+		margin: 0 0 2px 16px;
 		text-decoration: none;
 		-webkit-transition: all 0.1s ease-in-out;
 		-moz-transition: all 0.1s ease-in-out;
 		-ms-transition: all 0.1s ease-in-out;
 		-o-transition: all 0.1s ease-in-out;
 		transition: all 0.1s ease-in-out;
-		width: calc( 100% - 48px );
+		width: 100%;
+		will-change: transition, transform, scale;
 	}
 
 	body a:hover {
 		background-color: #00897B;
-		-webkit-transform: scale(1.02);
-		-moz-transform: scale(1.02);
-		-ms-transform: scale(1.02);
-		-o-transform: scale(1.02);
-		transform: scale(1.02);
+		-webkit-transform: scale( 1.01 );
+		-moz-transform: scale( 1.01 );
+		-ms-transform: scale( 1.01 );
+		-o-transform: scale( 1.01 );
+		transform: scale( 1.01 );
 	}
-
-	body ul {
-		display: block;
-		padding: 14px;
-		max-width: 600px;
-		width:100%;
-		background-color: #FFF;
-	}
-
-	body ul > li {
-		padding: 7px 7px 7px 14px;
-		border: solid 1px #DDD;
-		color: #424242;
-	}
-</style>';
-echo '<h1>Localhost</h1>';
+</style>
+</head>
+<body>
+<h1>Localhost</h1>';
