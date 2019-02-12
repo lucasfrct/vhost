@@ -167,16 +167,16 @@
 
 <?php 
 
-function addLink ( string $path, string $domain ) {
+function addLink ( string $path, string $domain, string $port = "80" ) {
 
 	$server = ( ping ( $domain ) ) ? "server-on" : "server-off";
 	$folder = ( checkDir ( $path ) ) ? "folder-on" : "folder-off";
 
-	echo '<a href="http://'.$domain.'">
+	echo '<a href="http://'.$domain.':'.$port.'">
 			<section>
 				<div class="domain '.$server.'">
 					<span class="img '.$server.'"></span>
-					<strong>http://'.$domain.'</strong>
+					<strong>http://'.$domain.':'.$port.'</strong>
 				</div>
 				<div class="config '.$folder.'">
 					<span class="img '.$folder.'"></span>
