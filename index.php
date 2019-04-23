@@ -17,6 +17,8 @@ addLink ( "components", "components.dev.com", "80" );
 #$vhost->new (  "crud", "crud.dev.com", "80" );
 #addLink ( "crud", "crud.dev.com", "80" );
 
+$vhost->new (  "mvp-imoveis/public", "mvpimoveis.dev.com", "80" );
+addLink ( "mvp-imoveis/public", "mvpimoveis.dev.com", "80" );
 
-$vhost->new (  "dekasa/public", "dekasa.dev.com", "80" );
-addLink ( "dekasa/public", "dekasa.dev.com", "80" );
+$vhost->new (  "mvp-imoveis/public", "mvpimoveis.dev.com", "81" );
+addLink ( "mvp-imoveis/public", "mvpimoveis.dev.com", "81" );
