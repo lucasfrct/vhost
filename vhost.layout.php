@@ -181,22 +181,11 @@ function addLink ( string $path, string $domain, string $port = "80" ) {
 				<div class="config '.$folder.'">
 					<span class="img '.$folder.'"></span>
 					<strong>/'.$path.'</strong>
-					<span class="img config"></span>
-					<strong>'.GetDirectorySize ( $path ).' Mbytes</strong>
+					<!--span class="img config"></span>
+					<strong> Mbytes</strong>-->
 				</div>
 			</section>
 		</a>';
-};
-
-function GetDirectorySize($path){
-    $bytestotal = 0;
-    $path = realpath($path);
-    if($path!==false && $path!='' && file_exists($path)){
-        foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
-            $bytestotal += $object->getSize();
-        }
-    }
-    return round ( ( $bytestotal / 1024 ) / 1024 );
 };
 
 function ping ( string $domain = "localhost" ) {
@@ -208,4 +197,15 @@ function ping ( string $domain = "localhost" ) {
 
 function checkDir ( string $dir = "" ) {
 	return ( realpath ( $dir ) ) ? TRUE : FALSE;
+};
+
+function GetDirectorySize ( $path ) {
+    $bytestotal = 0;
+    $path = realpath ( $path );
+    if ( $path!==false && $path!='' && file_exists ( $path ) ) {
+        foreach (new RecursiveIteratorIterator ( new RecursiveDirectoryIterator ( $path, FilesystemIterator::SKIP_DOTS ) ) as $object ) {
+            $bytestotal += $object->getSize ( );
+        }
+    }
+    return round ( ( $bytestotal / 1024 ) / 1024 );
 };

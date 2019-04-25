@@ -22,3 +22,6 @@ addLink ( "mvp-imoveis/public", "mvpimoveis.dev.com", "80" );
 
 $vhost->new (  "mvp-imoveis/public", "mvpimoveis.dev.com", "81" );
 addLink ( "mvp-imoveis/public", "mvpimoveis.dev.com", "81" );
+
+$vhost->new (  "mvp-marketing", "mvpmarketing.dev.com", "80" );
+addLink ( "mvp-marketing", "mvpmarketing.dev.com", "80" );

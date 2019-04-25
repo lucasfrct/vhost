@@ -36,12 +36,6 @@ Class VHost {
     	return file_put_contents ( $src, $content, $flag );
 	}
 
-	# função para mudar as permissões de escrita, leitura e modficação de pastas e arquivos
-	private function changePermission ( string $src ) 
-	{
-		return chmod ( $src, 0777 );
-	}
-
 	#função para procurar o registro de um host no windows
 	private function findIndexWinHost ( string $host = "" ): bool 
 	{
@@ -59,9 +53,7 @@ Class VHost {
 	{	
 		$status = FALSE;
 		if ( !$this->findIndexWinHost ( $host ) ) {
-			if ( $this->changePermission ( $this->fileWinHosts ) ) {
-				$status = $this->writeFile ( $this->fileWinHosts, $this->makeTemplateForWinHost ( $host ) );
-			};
+			$status = $this->writeFile ( $this->fileWinHosts, $this->makeTemplateForWinHost ( $host ) );
 		};
 		return $status;
 	}
