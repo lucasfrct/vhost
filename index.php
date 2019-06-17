@@ -17,11 +17,11 @@ addLink ( "components", "components.dev.com", "80" );
 #$vhost->new (  "crud", "crud.dev.com", "80" );
 #addLink ( "crud", "crud.dev.com", "80" );
 
-$vhost->new (  "mvp-imoveis/public", "mvpimoveis.dev.com", "80" );
-addLink ( "mvp-imoveis/public", "mvpimoveis.dev.com", "80" );
+$vhost->new (  "mvp-imoveis/", "mvpimoveis.dev.com", "80" );
+addLink ( "mvp-imoveis/", "mvpimoveis.dev.com", "80" );
 
-$vhost->new (  "mvp-imoveis/public", "mvpimoveis.dev.com", "81" );
-addLink ( "mvp-imoveis/public", "mvpimoveis.dev.com", "81" );
+$vhost->new (  "mvp-marketing/", "mvpmarketing.dev.com", "80" );
+addLink ( "mvp-marketing/", "mvpmarketing.dev.com", "80" );
 
-$vhost->new (  "mvp-marketing", "mvpmarketing.dev.com", "80" );
-addLink ( "mvp-marketing", "mvpmarketing.dev.com", "80" );
+$vhost->new (  "devmvp-imoveis/", "devmvpimoveis.dev.com", "80" );
+addLink ( "devmvp-imoveis/", "devmvpimoveis.dev.com", "80" );
