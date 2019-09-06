@@ -169,23 +169,38 @@
 
 function addLink ( string $path, string $domain, string $port = "80" ) {
 
-	$server = ( ping ( $domain ) ) ? "server-on" : "server-off";
-	$folder = ( checkDir ( $path ) ) ? "folder-on" : "folder-off";
+		$server = ( ping ( $domain ) ) ? "server-on" : "server-off";
+		$folder = ( checkDir ( $path ) ) ? "folder-on" : "folder-off";
 
-	echo '<a href="http://'.$domain.':'.$port.'">
-			<section>
-				<div class="domain '.$server.'">
-					<span class="img '.$server.'"></span>
-					<strong>http://'.$domain.':'.$port.'</strong>
-				</div>
-				<div class="config '.$folder.'">
-					<span class="img '.$folder.'"></span>
-					<strong>/'.$path.'</strong>
-					<!--span class="img config"></span>
-					<strong> Mbytes</strong>-->
-				</div>
-			</section>
-		</a>';
+	if ( checkDir ( $path ) ) { 
+
+
+		echo '<a href="http://'.$domain.':'.$port.'">
+				<section>
+					<div class="domain '.$server.'">
+						<span class="img '.$server.'"></span>
+						<strong>http://'.$domain.':'.$port.'</strong>
+					</div>
+					<div class="config '.$folder.'">
+						<span class="img '.$folder.'"></span>
+						<strong>/'.$path.'</strong>
+					</div>
+				</section>
+			</a>';
+	} else {
+		echo '<a href="http://localhost">
+				<section>
+					<div class="domain '.$server.'">
+						<span class="img '.$server.'"></span>
+						<strong>http://localhost</strong>
+					</div>
+					<div class="config '.$folder.'">
+						<span class="img '.$folder.'"></span>
+						<strong>NO DIR</strong>
+					</div>
+				</section>
+			</a>';
+	}
 };
 
 function ping ( string $domain = "localhost" ) {
@@ -196,7 +211,7 @@ function ping ( string $domain = "localhost" ) {
 }
 
 function checkDir ( string $dir = "" ) {
-	return ( realpath ( $dir ) ) ? TRUE : FALSE;
+	return ( realpath ( $dir ) && is_dir ( $dir ) ) ? TRUE : FALSE;
 };
 
 function GetDirectorySize ( $path ) {

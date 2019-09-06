@@ -1,96 +1,85 @@
 <?php 
 #VHost.php
 
-Class VHost {
-
-	public $pathServer = "c:/xampp/"; #pasta do servidor
-	public $fileWinHosts = "c:/Windows/System32/drivers/etc/hosts"; #arquivo de hosts do windows 
-	public $fileApacheConf = "apache/conf/httpd.conf"; 
-	public $fileApacheVhost = "apache/conf/extra/httpd-vhosts.conf";
-	public $publicFolder = "htdocs/";
-
-	public function __construct ( string $pathServer = "c:/xampp/" ) 
+Class Path
+{	
+	public $httpdConf 		= "C:/xampp/apache/conf/httpd.conf";
+	public $httpdVhostsConf = "C:/xampp/apache/conf/extra/httpd-vhosts.conf";
+	public $WinHosts 		= "C:/Windows/System32/drivers/etc/hosts";
+	public $host 			= "C:/xampp/htdocs";
+	
+	public function httpdConf ( string $path = "" ) : string
 	{
-		$this->pathServer = $this->digestPath ( $pathServer );
-		$this->fileWinHosts = $this->digestPath ( $this->fileWinHosts );
-		$this->fileApacheConf = $this->digestPath ( $this->pathServer."/".$this->fileApacheConf );
-		$this->fileApacheVhost = $this->digestPath ( $this->pathServer."/".$this->fileApacheVhost );
-		$this->publicFolder = $this->digestPath ( $this->pathServer."/".$this->publicFolder );
+		if ( $this->set ( $path, 12 ) ) { $this->httpdConf = $path; };
+		return $this->digest ( $this->httpdConf );
 	}
 
-	#funcção para normalizar o formato de diretório
-	protected function digestPath ( string $path ): string 
+	public function httdpVhostsConf ( string $path = "" ): string 
+	{
+		if ( $this->set ( $path, 10 ) ) { $this->httpdVhostsConf = $path; };
+		return $this->digest ( $this->httpdVhostsConf );
+	}
+
+	public function winHosts ( string $path = "" ): string
+	{
+		if ( $this->set ( $path, 10 ) ) { $this->winHosts = $path; };
+		return $this->digest ( $this->winHosts );
+	}
+
+	public function host ( string $path = "" ): string
+	{
+		if ( $this->set ( $path, 3 ) ) { $this->host = $path; };	
+		return $this->digest ( $this->host );
+	}
+
+	public function set ( string $path, $length ): string 
+	{
+		return ( strlen ( $path ) > $length ) ? TRUE : FALSE;
+	}
+
+	public function digest ( string $path = "" ): string 
 	{
 		$path = str_replace ( array ( '/', '\\' ), DIRECTORY_SEPARATOR, $path );
 		return realpath ( $path );
 	}
+}
 
-	# funcão que ler um arquivo
-	private function readFile ( string $src = "" ): string 
+Class Archive
+{
+	public function read ( string $src = "" ): string 
 	{
-    	return file_get_contents ( $src ); 
-	}
-	# funcção para escrevewr um arquivo
-	private function writeFile ( string $src = "", string $content = "", $flag = FILE_APPEND ): bool 
-	{
-    	return file_put_contents ( $src, $content, $flag );
+		return file_get_contents ( $src );
 	}
 
-	#função para procurar o registro de um host no windows
-	private function findIndexWinHost ( string $host = "" ): bool 
-	{
-		return ( strstr ( $this->readFile ( $this->fileWinHosts ),  $host ) ) ? TRUE : FALSE;
-	}
-
-	# função apra escrever o conteúdo do hosts no windows
-	private function makeTemplateForWinHost ( string $host = "" ) 
-	{
-		return "\n    127.0.0.1       ".$host." \n    ::1             ".$host;
-	}
-
-	# adiciona umnovo conteúdo no arquivo hosts do windows
-	protected function addOnWinHost ( string $host = "" ): bool
+	public function write ( string $src = "", string $content = "", $flag = FILE_APPEND ): bool
 	{	
-		$status = FALSE;
-		if ( !$this->findIndexWinHost ( $host ) ) {
-			$status = $this->writeFile ( $this->fileWinHosts, $this->makeTemplateForWinHost ( $host ) );
-		};
-		return $status;
-	}
+		chmod ( $src, 0755 );
+		return file_put_contents ( $src, $content, $flag );
+	} 
 
-	#procura a porta ouvida pelo apache
-	private function findListenedPort ( string $port = "80" ) 
+	#função para procurar textos
+	public function find ( string $scr = "", string $content = "" ): bool 
 	{
-		return ( strstr ( $this->readFile ( $this->fileApacheConf ),  "Listen ".$port ) ) ? TRUE : FALSE;
+		return ( strstr ( $this->read ( $scr ),  $content ) ) ? TRUE : FALSE;
 	}
+}
 
-	private function addPortInApacheConf ( string $port = "80" )
-	{	
-		$status = FALSE;
-		if ( !$this->findListenedPort ( $port ) ) {
-			$divider = "\nListen 80";
-        	$content = explode ( $divider, $this->readFile ( $this->fileApacheConf ) );
-        	$content [ 0 ] = $content [ 0 ].$divider;
-        	$content [ 1 ] = "\nListen ".$port.$content [ 1 ];
-        	$status = $this->writeFile ( $this->fileApacheConf, implode ( "", $content ), 0 );
-		};
-		return $status;
-	}
-
-	private function findVHostInApacheHostConf ( string $host = "localhost" ): bool 
+Class Template 
+{
+	# função para escrever o conteúdo do hosts no windows
+	public function WinHosts ( string $host = "", string $ip = "127.0.0.1" ): string 
 	{
-		return ( strstr ( $this->readFile ( $this->fileApacheVhost ),  $host ) ) ? TRUE : FALSE;
+		return "\n    ".$ip."       ".$host;
 	}
 
-	private function makeTemplateForVHost ( string $path = "", string $vhost = "localhost", string $port = "80" ): string
+	public function vhost ( string $path = "", string $host = "", string $port = "80" ): string
 	{
-		$path = $this->digestpath ( $path ) ;
 		return '
 
-<VirtualHost '.$vhost.':'.$port.'>
-    ServerAdmin admin@'.$vhost.'
-    ServerName '.$vhost.':'.$port.'
-    ServerAlias www.'.$vhost.'
+<VirtualHost '.$host.':'.$port.'>
+    ServerAdmin admin@'.$host.'
+    ServerName '.$host.':'.$port.'
+    ServerAlias www.'.$host.'
     DocumentRoot "'.$path.'"
     UseCanonicalName Off
     <Directory "'.$path.'">
@@ -104,24 +93,88 @@ Class VHost {
 </VirtualHost>';
 
 	}
+}
 
-	private function addVHostToApacheHostConf ( string $path = "", string $vhost = "localhost", string $port = "80" ): bool
+Class VHost {
+
+	public $path = NULL;
+	public $file = NULL;
+	public $template = NULL;
+	public $os = "WIN";
+
+	public function __construct ( ) 
+	{ 
+		$this->path = new Path ( );
+		$this->file = new Archive ( );
+		$this->template = new Template ( );
+	}
+
+	public function isWin ( ): bool
 	{
+		return ( strtoupper ( substr ( PHP_OS, 0, 3 ) ) === 'WIN' ) ? TRUE : FALSE;
+	}
+
+	
+	#função para procurar o registro de um host no windows
+	public function hasWinHosts ( string $host = "" ): bool 
+	{
+		return $this->file->find ( $this->path->winHosts ( ), $host );
+	}
+
+	# adiciona umnovo conteúdo no arquivo hosts do windows
+	public function AddWinHosts ( string $host = "", string $ip = "127.0.0.1" ): bool
+	{	
 		$status = FALSE;
-		$tpl = $this->makeTemplateForVHost ( $path, $vhost, $port );
-		if ( !$this->findVHostInApacheHostConf ( $tpl ) ) {
-			$status = $this->writeFile ( $this->fileApacheVhost, $tpl );
+		if ( !$this->hasWinHosts ( $host ) ) {
+			$status = $this->file->write ( $this->path->winHosts ( ), $this->template->winHosts ( $host, $ip ) );
 		};
 		return $status;
 	}
 
-	public function new ( string $path = "",  string $vhost = "localhost", string $port = "80" ) 
+	#procura a porta ouvida pelo apache
+	public function findPort ( string $port = "80" ) 
 	{
-		$path = $this->digestPath ( $this->publicFolder."/".$path );
-		if ( $path ) {
-			$this->addOnWinHost ( $vhost );
-			$this->addPortInApacheConf ( $port );
-			$this->addVHostToApacheHostConf ( $path, $vhost, $port );
+		return $this->file->find ( $this->path->httpdConf ( ), "Listen ".$port );
+	}
+
+	public function addPort ( string $port = "80" )
+	{	
+		$status = FALSE;
+		if ( !$this->findPort ( $port ) ) {
+			$divider = "\nListen 80";
+        	$content = explode ( $divider, $this->file->read ( $this->path->httpdConf ( ) ) );
+        	$content [ 0 ] = $content [ 0 ].$divider;
+        	$content [ 1 ] = "\nListen ".$port.$content [ 1 ];
+        	$status = $this->file->write ( $this->path->httpdConf ( ), implode ( "", $content ), 0 );
+		};
+		return $status;
+	}
+
+	public function find ( string $host = "localhost" ): bool 
+	{
+		return $this->file->find ( $this->path->httdpVhostsConf ( ),  "<VirtualHost ".$host );
+	}
+
+	public function add ( string $path = "", string $vhost = "localhost", string $port = "80" ): bool
+	{
+		$status = FALSE;
+		if ( !$this->find ( $vhost ) ) {
+			$status = $this->file->write ( 
+				$this->path->httdpVhostsConf ( ), 
+				$this->template->vhost ( $path, $vhost, $port )
+			);
+		};
+		return $status;
+	}
+
+	public function new ( string $path = "",  string $vhost = "localhost", string $ip = "127.0.0.1", string $port = "80" ) 
+	{
+		if ( strlen ( $path ) > 1 ) { $this->path->host ( $path ); };
+
+		if ( is_dir ( $this->path->host ( ) ) ) {
+			$this->AddWinHosts ( $vhost, $ip );
+			$this->addPort ( $port );
+			$this->add ( $this->path->host ( ), $vhost, $port );
 		};
 	}
 };
