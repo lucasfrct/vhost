@@ -38,3 +38,7 @@ $vhost->new (  "C:/xampp/htdocs", "localhost", "127.0.0.1", "80" );
 # PASTA DA LIBER WEB
 $vhost->new ( "C:/xampp/htdocs/liber/app/web", "liber.dev.com", "127.0.0.1", "80" );
 addLink ( "C:/xampp/htdocs/liber/app/web", "liber.dev.com", "80" );
+
+# PASTA LUCASFRCT
+$vhost->new ( "C:/xampp/htdocs/lucasfrct", "lucasfrct.dev.com", "127.0.0.1", "80" );
+addLink ( "C:/xampp/htdocs/lucasfrct", "lucasfrct.dev.com", "80" );

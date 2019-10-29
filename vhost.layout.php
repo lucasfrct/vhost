@@ -183,7 +183,7 @@ function addLink ( string $path, string $domain, string $port = "80" ) {
 					</div>
 					<div class="config '.$folder.'">
 						<span class="img '.$folder.'"></span>
-						<strong>/'.$path.'</strong>
+						<strong>'.$path.'</strong>
 					</div>
 				</section>
 			</a>';

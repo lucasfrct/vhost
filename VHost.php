@@ -1,99 +1,13 @@
 <?php 
 #VHost.php
+/*
+* Lucas Costa
+* Ago 2019
+*/
 
-Class Path
-{	
-	public $httpdConf 		= "C:/xampp/apache/conf/httpd.conf";
-	public $httpdVhostsConf = "C:/xampp/apache/conf/extra/httpd-vhosts.conf";
-	public $WinHosts 		= "C:/Windows/System32/drivers/etc/hosts";
-	public $host 			= "C:/xampp/htdocs";
-	
-	public function httpdConf ( string $path = "" ) : string
-	{
-		if ( $this->set ( $path, 12 ) ) { $this->httpdConf = $path; };
-		return $this->digest ( $this->httpdConf );
-	}
-
-	public function httdpVhostsConf ( string $path = "" ): string 
-	{
-		if ( $this->set ( $path, 10 ) ) { $this->httpdVhostsConf = $path; };
-		return $this->digest ( $this->httpdVhostsConf );
-	}
-
-	public function winHosts ( string $path = "" ): string
-	{
-		if ( $this->set ( $path, 10 ) ) { $this->winHosts = $path; };
-		return $this->digest ( $this->winHosts );
-	}
-
-	public function host ( string $path = "" ): string
-	{
-		if ( $this->set ( $path, 3 ) ) { $this->host = $path; };	
-		return $this->digest ( $this->host );
-	}
-
-	public function set ( string $path, $length ): string 
-	{
-		return ( strlen ( $path ) > $length ) ? TRUE : FALSE;
-	}
-
-	public function digest ( string $path = "" ): string 
-	{
-		$path = str_replace ( array ( '/', '\\' ), DIRECTORY_SEPARATOR, $path );
-		return realpath ( $path );
-	}
-}
-
-Class Archive
-{
-	public function read ( string $src = "" ): string 
-	{
-		return file_get_contents ( $src );
-	}
-
-	public function write ( string $src = "", string $content = "", $flag = FILE_APPEND ): bool
-	{	
-		chmod ( $src, 0755 );
-		return file_put_contents ( $src, $content, $flag );
-	} 
-
-	#função para procurar textos
-	public function find ( string $scr = "", string $content = "" ): bool 
-	{
-		return ( strstr ( $this->read ( $scr ),  $content ) ) ? TRUE : FALSE;
-	}
-}
-
-Class Template 
-{
-	# função para escrever o conteúdo do hosts no windows
-	public function WinHosts ( string $host = "", string $ip = "127.0.0.1" ): string 
-	{
-		return "\n    ".$ip."       ".$host;
-	}
-
-	public function vhost ( string $path = "", string $host = "", string $port = "80" ): string
-	{
-		return '
-
-<VirtualHost '.$host.':'.$port.'>
-    ServerAdmin admin@'.$host.'
-    ServerName '.$host.':'.$port.'
-    ServerAlias www.'.$host.'
-    DocumentRoot "'.$path.'"
-    UseCanonicalName Off
-    <Directory "'.$path.'">
-    	AddDefaultCharset utf-8
-        AllowOverride All
-        Allow from all
-        DirectoryIndex index.php index.html index.htm
-    	EnableSendfile On
-        Require all granted
-    </Directory>
-</VirtualHost>';
-
-	}
-}
+require_once ( "Path.php" );
+require_once ( "Archive.php" );
+require_once ( "Template.php" );
 
 Class VHost {
 
