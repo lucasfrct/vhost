@@ -19,6 +19,6 @@ Class Archive
 	#função para procurar textos
 	public function find ( string $scr = "", string $content = "" ): bool 
 	{
-		return ( strstr ( $this->read ( $scr ),  $content ) ) ? TRUE : FALSE;
+		return ( strstr ( $this->read ( $scr ),  $content ) ) ? true : false;
 	}
 }

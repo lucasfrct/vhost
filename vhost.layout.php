@@ -206,12 +206,12 @@ function addLink ( string $path, string $domain, string $port = "80" ) {
 function ping ( string $domain = "localhost" ) {
 	$status = FALSE;
 	exec ( "ping -n 1 -w 1 " . $domain, $output, $result );
-	$status =  ( !$result && count ( $output ) > 2 ) ? TRUE : FALSE;
+	$status =  ( !$result && count ( $output ) > 2 ) ? true : false;
 	return $status;
 }
 
 function checkDir ( string $dir = "" ) {
-	return ( realpath ( $dir ) && is_dir ( $dir ) ) ? TRUE : FALSE;
+	return ( realpath ( $dir ) && is_dir ( $dir ) ) ? true : false;
 };
 
 function GetDirectorySize ( $path ) {

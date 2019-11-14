@@ -49,7 +49,7 @@ Class Path
 	# @return : bool
 	public function set ( string $path, $length ): bool 
 	{
-		return ( strlen ( $path ) > $length ) ? TRUE : FALSE;
+		return ( strlen ( $path ) > $length ) ? true : false;
 	}
 
 	# @param $path : string

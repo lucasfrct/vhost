@@ -11,9 +11,9 @@ require_once ( "Template.php" );
 
 Class VHost {
 
-	public $path = NULL;
-	public $file = NULL;
-	public $template = NULL;
+	public $path = null;
+	public $file = null;
+	public $template = null;
 	public $os = "WIN";
 
 	public function __construct ( ) 
@@ -25,7 +25,7 @@ Class VHost {
 
 	public function isWin ( ): bool
 	{
-		return ( strtoupper ( substr ( PHP_OS, 0, 3 ) ) === 'WIN' ) ? TRUE : FALSE;
+		return ( strtoupper ( substr ( PHP_OS, 0, 3 ) ) === 'WIN' ) ? true : false;
 	}
 
 	
