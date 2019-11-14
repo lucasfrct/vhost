@@ -42,3 +42,7 @@ addLink ( "C:/xampp/htdocs/liber/app/web", "liber.dev.com", "80" );
 # PASTA LUCASFRCT
 $vhost->new ( "C:/xampp/htdocs/lucasfrct", "lucasfrct.dev.com", "127.0.0.1", "80" );
 addLink ( "C:/xampp/htdocs/lucasfrct", "lucasfrct.dev.com", "80" );
+
+# PASTA LUCASFRCT
+$vhost->new ( "C:/xampp/htdocs/andre", "andre.dev.com", "127.0.0.1", "3000" );
+addLink ( "C:/xampp/htdocs/andre", "andre.dev.com", "3000" );
