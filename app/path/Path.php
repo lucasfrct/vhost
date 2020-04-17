@@ -59,4 +59,18 @@ Class Path
 		$path = str_replace ( array ( '/', '\\' ), DIRECTORY_SEPARATOR, $path );
 		return realpath ( $path );
 	}
+
+	public function find ( $diretory ) 
+	{
+		$files = [];
+		$dir = dir ( $diretory );
+
+		while ( $file = $dir->read()) {
+			if ($file !== "." && $file !== "..") {
+				array_push ( $files, $file );
+			}
+		};
+
+		return $files;
+	}
 }

@@ -1,0 +1,207 @@
+<style>
+
+    .cards-container { }
+
+    .card-container { }
+
+    .card-container .card {
+        transition: filter 0.1s ease-in-out;
+    }
+
+    .card-container .card:hover {
+        filter: brightness(1.1);
+    }
+
+    .card-container .card .card-del {
+        width: 36px;
+        height: 36px;
+        font-size: 1.7rem;
+        cursor: pointer;
+        color: #b0bec5 ;
+        margin: 12px 4px 0 0;
+    }
+
+    .card-container .card .card-del:hover {
+        filter: brightness(1.5);
+    }
+
+    .card-container .card .card-link {
+        color: #FFF;
+        cursor: pointer;
+    }
+
+    .card-container .card .card-icon {
+        background-size: 32px 32px;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 32px;
+        height: 32px;   
+        display: inline-block;
+        margin-right: 12px;
+        margin-bottom: -4px;
+    }
+
+    .card-container .card .server-on {
+        background-image: url(assets/images/server-on.png);   
+    }
+
+    .card-container .card .server-off {
+        background-image: url(assets/images/server-off.png);   
+    }
+
+    .card-container .card .folder-on {
+        background-image: url(assets/images/folder-on.png); 
+    }
+
+    .card-container .card .folder-off{
+        background-image: url(assets/images/folder-off.png); 
+    }
+
+    .card-container .card-add {
+        height: 123px;
+        opacity: 0.8;
+        border: dashed rgba(255,255,255,0.6);
+        transition: filter 0.2s ease-in-out;
+    }
+
+    .card-container .card-add:hover {
+        filter: brightness(1.5);
+    }
+
+    .card-container .card-add .card-icon-add {
+        display: block;
+        text-align: center;
+        top: 0px;
+        font-size: 5rem;
+        cursor: pointer;
+    }
+
+    .card-container.card-modal {
+        background-color: transparent;
+        max-width: 500px;
+    }
+
+    .card-container.card-modal .card-content {
+        clear: both;
+    }
+
+    .card-container.card-modal .card-content::after {
+        content: "";
+        clear: both;
+        display: block;
+    }
+
+    .card-container.card-modal .card-title {
+        text-align: center;
+    }
+
+    .card-container.card-modal input {
+        width: calc(100% - 52px) !important;
+        display: inline-block;
+        padding: 0;
+        color: #FFF;
+        max-height: 23px;
+    }
+    
+    .card-container.card-modal button {
+        margin: 12px 0 0 0;
+    }
+
+    .card-container.card-modal .card-load {
+        max-width: 500px;
+        overflow: hidden;
+        text-align: center;
+        margin: 0px 0px 32px 0px;
+        margin-left: calc(50% - 30px);
+    }
+
+    .card-container.card-modal .card-error {
+        color: #FFF;
+    }
+
+</style>
+
+<div class="cards-container row">
+    
+    <div class="card-container col s12 m6 l4 xl3" ng-repeat="card in cards">
+        <div class="card blue-grey darken-1">
+
+            <i class="card-del material-icons right tooltipped" ng-click="delCard(card)" tooltip="Deletar este Servidor?">delete_forever</i>
+
+            <div class="card-content white-text">
+
+                <a class="card-link" href="{{card.domain}}">
+                    <span class="card-title">
+                        <span class="card-icon server-{{ (card.status) ? 'on' : 'off'}}"></span>{{card.domain}}
+                    </span>
+                    <p><span class="card-icon folder-{{ (card.location) ? 'on' : 'off' }}"></span>{{card.folder}}</p>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card-container col s12 m6 l4 xl3" ng-click="toggleModal()" >
+        <div class="card-add card blue-grey darken-1">
+            <div class="card-content white-text">
+                <i class="card-icon-add material-icons" tooltip="Adicionar um Servidor">add</i>
+            </div>
+        </div>
+    </div>
+
+    <div modal="modalControl" class="card-modal card-container" >
+       
+        <div class="card blue-grey darken-1">
+
+            <div class="card-content white-text" ng-show="!card.load">
+               
+                <span class="card-title">Novo Servidor</span>
+                <p>
+                    <span class="card-icon server-{{ (card.status) ? 'on' : 'off'}}"></span>
+                    <input type="text" ng-model="card.domain" placeholder="Digite o Dmomínio">
+                    <span class="card-icon folder-{{ (card.location) ? 'on' : 'off' }}"></span>
+                    <input type="text" ng-model="card.folder" placeholder="Digite o Diretório">
+                </p>
+                
+                <button 
+                    type="button" 
+                    class="waves-effect waves-light btn green col s12 m7"
+                    ng-click="saveCard(card)"
+                >
+                    <i class="material-icons left">library_add</i>Add Virtual Host
+                </button>
+                
+                <button 
+                    type="button" 
+                    class="waves-effect waves-light btn cancel right  red darken-2 col s12 m4"
+                    ng-click="toggleModal()"
+                >
+                    <i class="material-icons left">cancel</i>Cancel
+                </button>
+            </div>
+
+            <div class="card-content white-text" ng-show="card.load">
+                <h6>Salvando...</h6>
+            </div>
+
+            <div class="card-load preloader-wrapper big active" ng-show="card.load">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="card-action card-error  red darken-4" ng-show="card.msg">
+                {{card.msg}}
+              </div>
+
+        </div>
+
+    </div>
+
+</div>

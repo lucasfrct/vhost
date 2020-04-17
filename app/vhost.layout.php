@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+	<base href="./vhost/">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" sizes="32x32" href="vhost/img/server-online.png">
+	<link rel="icon" sizes="32x32" href="assets/images/server-online.png">
 	<title>Local Host</title>
 	<style type="text/css">
 		@font-face {
@@ -28,7 +29,7 @@
 		}
 
 		body {
-			background-image: url('vhost/img/server.jpg');
+			background-image: url('assets/images/server.jpg');
 		}
 
 		body::before {
@@ -133,11 +134,11 @@
 		}
 
 		section span.server-on {
-			background-image: url('vhost/img/server-on.png');
+			background-image: url('assets/images/server-on.png');
 		}
 
 		section span.server-off {
-			background-image: url('vhost/img/server-off.png');
+			background-image: url('assets/images/server-off.png');
 		}
 
 		div.server-off,
@@ -146,22 +147,23 @@
 		}
 
 		section span.folder-on {
-			background-image: url('vhost/img/folder-on.png');
+			background-image: url('assets/images/folder-on.png');
 		}
 
 		section span.folder-off {
-			background-image: url('vhost/img/folder-off.png');
+			background-image: url('assets/images/folder-off.png');
 		}
 
 		section span.config {
-			background-image: url('vhost/img/config.png');
+			background-image: url('assets/images/config.png');
 		}
 
 	</style>
 </head>
 <body class="img">
 	<header>
-		<h2>Running Server <small><?php echo $_SERVER['HTTP_HOST']; ?></small></h2>
+		<h2>Running Server <small><?php echo $_SERVER['SERVER_ADDR']; ?>
+		by <?php echo $_SERVER['REMOTE_ADDR']; ?></small></h2>
 	</header>
 	<main>
 

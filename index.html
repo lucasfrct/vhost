@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="vhost">
+    <head>
+        <base href="http://192.168.1.10/vhost/">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Virtual Host</title>
+
+        <link rel="icon" sizes="32x32" href="assets/images/server-online.png">
+
+        <link rel="stylesheet" href="lib/materialize-font/materialize.font.css" as="font">
+        <link rel="stylesheet" href="lib/materialize-1.0.0/css/materialize.min.css">
+
+        <script src="lib/materialize-1.0.0/js/materialize.min.js"></script>
+
+        <script src="lib/angular.min.js"></script>
+
+        <script src="app/vhost.module.js"></script>
+
+        <script src="app/modal/modal.directive.js"></script>
+        <script src="app/tooltip/tooltip.directive.js"></script>
+
+        <script src="app/header/header.component.js"></script>
+        <script src="app/footer/footer.component.js"></script>
+        <script src="app/cards/card.service.js"></script>
+        <script src="app/cards/cards.component.js"></script>
+
+        <style>
+
+            html {
+                background-image: url(assets/images/server.jpg);
+                background-attachment: fixed;
+                background-size: cover;
+			    background-repeat: no-repeat;
+			    background-position: center center;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html * {
+                box-sizing: border-box;
+            }
+
+            html body {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: 60px 1fr 80px;
+                min-height: 100vh;
+                margin: 0 !important;
+            } 
+
+            header, 
+            footer {
+			    background-color: rgba( 245, 245, 245, 0.9 );
+			    border: solid 1px #CCC;
+                margin: 0;
+		    }
+
+        </style>
+        
+    </head>
+    <body class="row">
+        <header></header>
+        
+        <main>
+            <cards></cards>
+        </main>
+        
+        <footer>
+
+        </footer>
+    </body>
+</html>

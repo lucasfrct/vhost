@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="app/modal/modal.css" >
+
+<section class="modal-container">
+    <div class="modal-content">
+        <h5 ng-hide="!modalTitle">{{ modalTitle }}</h5>	
+        <p ng-hide="!modalMessage">{{ modalMessage }}</p>
+    </div>
+    <div class="modal-footer">
+        <a class="waves-effect waves-green btn-flat" ng-click="modalInstance.close();">Fechar</a>
+    </div>
+</section>

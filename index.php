@@ -1,6 +1,6 @@
 <?php 
-require_once ( "Vhost.php" );
-require_once ( "vhost.layout.php" );
+require_once ( "app/Vhost.php" );
+require_once ( "app/vhost.layout.php" );
 
 $vhost = new VHost ( );
 $vhost->path->httpdConf ( "C:/xampp/apache/conf/httpd.conf" ) ;
@@ -33,9 +33,13 @@ $vhost->path->host ( "C:/xampp/htdocs" );
 
 
 # LOCALHOST
-$vhost->new (  "C:/xampp/htdocs", "localhost", "127.0.0.1", "80" );
+#$vhost->new (  "C:/xampp/htdocs", "localhost", "127.0.0.1", "80" );
 
-# PASTA DA LIBER WEB
+#$vhost->new (  "D:/Documents/GitHub/liber/app/db", "liber.db", "127.0.0.1", "81" );
+addLink ( "D:/Documents/GitHub/liber/app/db", "liber.db", "81" );
+
+
+/*# PASTA DA LIBER WEB
 $vhost->new ( "C:/xampp/htdocs/liber/app/web", "liber.dev.com", "127.0.0.1", "80" );
 addLink ( "C:/xampp/htdocs/liber/app/web", "liber.dev.com", "80" );
 
@@ -46,3 +50,4 @@ addLink ( "C:/xampp/htdocs/lucasfrct", "lucasfrct.dev.com", "80" );
 # PASTA LUCASFRCT
 $vhost->new ( "C:/xampp/htdocs/andre", "andre.dev.com", "127.0.0.1", "3000" );
 addLink ( "C:/xampp/htdocs/andre", "andre.dev.com", "3000" );
+*/
