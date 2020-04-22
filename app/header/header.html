@@ -3,17 +3,122 @@
     header {
         padding: 0 8px;
     }
-    .title {
+    .header-container {
         margin: 0;
         font-weight: 700;
         line-height: 52px;
+        display: block;
+        width: 100%;
     }
 
-    .title > small {
+    .header-container > small {
         font-size: 0.5em;
         color: #666666;
         padding-left: 8px;
     }
+
+    .header-container .header-settings {
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        margin: 12px 16px;
+        cursor: pointer;
+    }
+
+    .header-modal {
+      min-width: 60%;
+    }
+
+    .header-modal-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.6fr 0.6fr 1.5fr 0.6fr;
+        grid-gap: 8px;
+        height: calc(100% - 70px);
+        width: calc(100% - 50px);
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    .header-modal-content p {
+        background-color: #EEE;
+        box-sizing: border-box;
+        padding: 8px;
+        text-align: left;
+        line-height: 1.6em;
+    }
+
+    .header-load {
+        padding: 0;
+        margin: 0;
+        left: calc(50% - 32px);
+    }
+
+    .header-modal .modal-footer button {
+        margin: 6px 16px !important;
+    }
+
+    @media all and (max-width: 540px) {
+
+        .header-modal {
+            min-width: 95%;
+        }
+
+        .header-modal-content {
+            grid-template-rows: auto;
+        }
+
+        .header-modal-content {
+            width: calc(100% - 10px);
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+    }
 </style>
 
-<h5 class="title">Running Server <small>{{header.server}} by {{header.host}}</small></h5>
+<h5 class="header-container">
+    Running <small>{{server.address}} by {{server.remote}}</small>
+    <i class="header-settings material-icons right" tooltip="Configurações" ng-click="toggleSettings()">settings</i>
+</h5>
+
+<div modal="control.modal" class="header-modal modal-fixed-footer">
+    <div class="modal-content">
+        <h4>Configurações</h4>
+        <section class="header-modal-content">
+
+            <p ng-show="!control.load">Insira o caminho para a pasta raiz do XAMPP. EX: "C:\xampp"</p>
+            <div class="input-field" ng-show="!control.load">
+                <i class="material-icons prefix">widgets</i>
+                <input id="xampp" type="text" class="validate" ng-model="settings.xampp">
+                <label for="xampp">Xampp</label>
+            </div>
+
+            <p ng-show="!control.load">O hosts é o arquido de domínios do windows. Insira o caminho até o arquivo. É preciso mudar as permissões de escrita do 
+                arquivo para o aplicativo sobreescrevê-lo. Ex: "C:\Windows\System32\drivers\etc\hosts"</p>
+            <div class="input-field" ng-show="!control.load" >
+                <i class="material-icons prefix">wrap_text</i>
+                <input id="hosts" type="text" class="validate" ng-model="settings.hosts">
+                <label for="hosts">hosts</label>
+            </div>
+            
+            <h4  ng-show="control.load">Salvando...</h4>
+            <div class="header-load preloader-wrapper big active"  ng-show="control.load">
+                <div class="spinner-layer spinner-blue-only">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div><div class="gap-patch">
+                    <div class="circle"></div>
+                  </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+    <div class="modal-footer">
+        <button class="waves-effect waves-light btn green " ng-click="saveSettings(settings)">Save</button>
+        <button class="waves-effect waves-light btn cancel right  red darken-2" ng-click="toggleSettings()">Cancel</button>
+    </div>
+</div>

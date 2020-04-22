@@ -9,12 +9,12 @@ function CardService($http) {
 
     that.save = (card)=> {
         card.action = "save"
-        return $http({ method: "GET", url: that.url, params: card })
+        return $http({ method: "POST", url: that.url, data: card })
     }
 
     that.del = (card)=> {
         card.action = "delete"
-        return $http({ method: "GET", url: that.url, params: card })
+        return $http({ method: "POST", url: that.url, data: card })
     }
 
     that.load = ()=> {

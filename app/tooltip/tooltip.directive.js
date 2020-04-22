@@ -14,7 +14,6 @@ function TooltipDirective(){
         $el.attr("data-tooltip", $el.attr("tooltip"))
 
         var tool = M.Tooltip.init($el[0]);
-        console.log(tool)
 
     }
 }
