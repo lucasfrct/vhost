@@ -25,6 +25,6 @@
  ![](assets/screenshots/domain.jpg)
  
  ## Etapa 4
- Para que o Servidor Virtual funcione é necessário reinicair o Apache.
+ Para que o Servidor Virtual funcione é necessário reinicair o Apache. Depois abra localhost e clique no servidor que você será redirecionado para o novo servidor virtual.
  
  ![](assets/screenshots/xampp.jpg)
