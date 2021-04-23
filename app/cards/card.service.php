@@ -28,6 +28,7 @@ if ( !empty ( $post ) ) {
     
     if ( "save" == $post [ "action" ] ) {
         
+        $apache->add(); # adciona localhost como virtualhost princiapal
         $apache->add ( $folder , $domain, $port );
         $windows->addHosts ( $domain );
         

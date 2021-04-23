@@ -3,7 +3,7 @@
 require_once ( "../archive/Archive.php" );
 require_once ( "../path/Path.php" );
 
-$path = new Path ( );
+$path = new Path( );
 
 $httpdConf = "apache/conf/httpd.conf";
 $httdpVhostsConf = "apache/conf/extra/httpd-vhosts.conf";
@@ -25,4 +25,4 @@ $settings [ "htdocs" ] = $path->digest ( $settings [ "xampp" ].$host );
 
 Archive::write( "../log/settings.log", json_encode ( $settings ) );
 
-echo json_encode ( $settings );
+echo json_encode( $settings );

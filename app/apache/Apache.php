@@ -73,7 +73,7 @@ class Apache
     }
 	
 	# Método para adicionar uma nova virtual host no apache
-    public function add ( string $path = "", string $vhost = "localhost",  $port = "80" ): bool
+    public function add ( string $path = "C:/xampp/htdocs/", string $vhost = "localhost",  $port = "80" ): bool
 	{
 		$status = false;
 		if ( !$this->find ( $vhost ) ) {

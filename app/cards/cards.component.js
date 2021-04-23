@@ -29,6 +29,7 @@
         $scope.modal = false;
 
         service.load().then((cards)=> {
+            console.log("Cards", cards.data)
             $scope.cards = cards.data
         })
 
@@ -90,9 +91,11 @@
 
         reload = new EventSource("app/observers/observer.reload.php")
 
-        reload.addEventListener("reload", function(event) {
+        reload.addEventListener("reload", ReloadObserver)
+        
+        function ReloadObserver(event) {
 
-            console.log("reload", event.data)
+            console.log("ReloadObserver", event.data)
 
             var compare = String(JSON.stringify(angular.copy($scope.cards)))
 
@@ -101,7 +104,7 @@
                 $scope.$apply()
             }
         
-        });
+        }
 
     }
 
