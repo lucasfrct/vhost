@@ -51,10 +51,9 @@ function HeaderConstroller($scope, service, $timeout) {
     observer.addEventListener("server", ServerObserver) 
     
     function ServerObserver(event) {
-        console.log("ServerObserver: ", event.data)
         $scope.server = Object.assign($scope.server, JSON.parse(event.data))
         $scope.$apply();
-
+        console.log("ServerObserver: ", $scope.server)
     }
 
     const obs = new EventSource("./app/observers/observer.settings.php" );
@@ -63,8 +62,7 @@ function HeaderConstroller($scope, service, $timeout) {
     
     function SettingsObserver(event) {
         
-        console.log("SettingsObserver: ", JSON.parse(event.data))
-
+        
         let data = JSON.stringify(JSON.parse(event.data))
         
         if ( data == "{}" ) {
@@ -76,7 +74,8 @@ function HeaderConstroller($scope, service, $timeout) {
             $scope.settings = Object.assign($scope.settings, JSON.parse(event.data))
             $scope.$apply();
         }
-
+        
+        console.log("SettingsObserver: ", "Event Data-->", JSON.parse(event.data), "Settings-->", $scope.settings)
 
     }
 

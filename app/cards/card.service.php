@@ -28,7 +28,6 @@ if ( !empty ( $post ) ) {
     
     if ( "save" == $post [ "action" ] ) {
         
-        $apache->add(); # adciona localhost como virtualhost princiapal
         $apache->add ( $folder , $domain, $port );
         $windows->addHosts ( $domain );
         
@@ -56,7 +55,9 @@ $servers = [];
 $files = $path->list ( $uri );
 
 foreach ( $files as $file ) {
-    array_push ( $servers, json_decode ( Archive::read ( $uri.$file ), true ) );
+    if( null !== json_decode ( Archive::read ( $uri.$file ), true )) {
+        array_push ( $servers, json_decode ( Archive::read ( $uri.$file ), true ) );
+    }
 }
 
 echo json_encode ( $servers );

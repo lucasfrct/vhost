@@ -37,6 +37,6 @@ Class Path
 
 #$path = new Path ( );
 #$out = $path->digest ( "d:/lc/" );
-#$out = $path->check ( "d:/lc/" );
 #$out = $path->list ( "d:/lc/" );
+#$out = $path->check ( "d:/lc/" );
 #var_dump ( $out );

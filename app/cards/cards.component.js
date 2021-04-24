@@ -51,6 +51,7 @@
                     $scope.card = angular.copy(cardReset)
 
                     M.toast({html: "Servidor adcionado com sucesso" });
+                    console.log("saveCard: ", $scope.cards)
 
                 }, 1000)
                 

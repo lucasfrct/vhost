@@ -8,8 +8,6 @@ function HeaderService($http) {
     that.url = "./app/header/header.service.php"
 
     that.save = (settings)=> {
-
-        console.log("settings: ", settings)
         return $http({ method: "POST", url: that.url, data: settings })
     }
 }
